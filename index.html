@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Activation Circles</title>
+<meta name="description" content="Village Activation Circles: a TOLE storybook. It takes a village.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Activation Circles">
+<meta property="og:description" content="A TOLE storybook about Village Activation Circles. It takes a village.">
+<meta property="og:image" content="https://tole-admin.github.io/activation/preview.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://tole-admin.github.io/activation/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#0d1233">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* VOICE: warm, ceremonial, a little fierce; the companion to The Visioning storybook.
+   IDEA: a circle at night in the village clearing, seen while the guidelines are read aloud.
+   PICTURE: a living canvas: the ring of people, the talisman, the person of focus, the tree of life.
+   COLOUR and TYPE: the Visioning night palette (lapis, gold, ivory), Ministry purple for energy, Conflict brown for friction; Cormorant and EB Garamond.
+   LAYOUT: full-bleed scene, chapter bars on top, words low and centered, transport at the bottom. */
+:root{
+  --night:#0d1233; --gold:#e0954e; --gold-hi:#f6c27a; --ivory:#f8eedf; --mist:#c0bbd6;
+  --ministry:#5a3286; --ministry-hi:#a985d8; --line:rgba(248,238,223,.2); --panel:#141838;
+  --display:"Cormorant Garamond","EB Garamond",Georgia,"Times New Roman",serif;
+  --body:"EB Garamond",Georgia,"Times New Roman",serif;
+  --top-h:62px; --bot-h:74px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--night);color:var(--ivory);font-family:var(--body);overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px;border-radius:6px}
+
+.app{position:fixed;inset:0;overflow:hidden;user-select:none;-webkit-user-select:none}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim{position:absolute;left:0;right:0;bottom:0;height:52%;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(13,18,51,0) 0%,rgba(11,14,42,.7) 34%,rgba(8,10,30,.93) 100%)}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+.top{position:absolute;top:0;left:0;right:0;z-index:6;padding-top:calc(env(safe-area-inset-top,0px) + 10px)}
+.top-inner{max-width:42rem;margin:0 auto}
+.bars{display:flex;gap:4px}
+.bar{flex:1;height:3px;border-radius:2px;background:rgba(248,238,223,.17);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-hi));border-radius:2px}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;min-height:36px}
+.eyebrow{font-variant-caps:all-small-caps;letter-spacing:.16em;color:var(--gold);font-size:1.02rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.eyebrow b{font-weight:500;color:var(--gold-hi)}
+.tools{display:flex;gap:6px;flex:0 0 auto}
+.icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:rgba(13,18,51,.45);color:var(--mist);transition:color .2s,border-color .2s,background .2s}
+.icon svg{width:18px;height:18px}
+.icon[aria-pressed="true"]{color:var(--gold-hi);border-color:rgba(224,149,78,.75);background:rgba(36,34,82,.6)}
+.icon .off{display:none}
+.icon[aria-pressed="false"] .on{display:none}
+.icon[aria-pressed="false"] .off{display:block}
+
+/* stage */
+.stage{position:absolute;left:0;right:0;z-index:3;top:calc(env(safe-area-inset-top,0px) + var(--top-h));bottom:calc(env(safe-area-inset-bottom,0px) + var(--bot-h));
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:14px;padding-bottom:4px}
+.upper{flex:1 1 0;min-height:0;width:100%;max-width:42rem;display:flex;align-items:flex-start;justify-content:center;position:relative}
+.copy{flex:0 0 auto;width:100%;max-width:35rem;min-width:0;text-align:left;text-shadow:0 1px 14px rgba(8,10,30,.9),0 0 2px rgba(8,10,30,.6)}
+.leaving{opacity:0!important;transform:translateY(-8px);transition:opacity .3s ease,transform .3s ease}
+
+/* text */
+.label{font-variant-caps:all-small-caps;letter-spacing:.18em;color:var(--gold);font-size:1.02rem;margin:0 0 .35em}
+.lead{font-size:clamp(1.14rem,4.5vw,1.42rem);line-height:1.42;margin:0 0 .55em;text-wrap:pretty}
+.lead:last-child{margin-bottom:0}
+.lead.say{font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,6vw,2.1rem);line-height:1.2;color:var(--gold-hi)}
+.sub{color:var(--mist);font-size:clamp(1.02rem,3.9vw,1.16rem);line-height:1.45;margin:.75em 0 0;text-wrap:pretty}
+.quote{margin:0}
+.quote blockquote{margin:0;font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.5rem,6.3vw,2.3rem);line-height:1.17;color:var(--ivory);text-wrap:balance}
+.quote.big blockquote{font-size:clamp(2.3rem,11vw,4rem);line-height:1.05;color:var(--gold-hi)}
+.quote figcaption{margin-top:.7em}
+.credit{font-variant-caps:all-small-caps;letter-spacing:.16em;color:var(--gold);font-size:1rem}
+
+.w{display:inline-block;opacity:0;animation:wordIn .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0s) + var(--o,.15s) + var(--i) * 46ms)}
+.anim{opacity:0;animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0s) + var(--o,0s))}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes wordIn{from{opacity:0;transform:translateY(.22em);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+
+/* title */
+.title-block{text-align:center;padding:0 4px;margin-bottom:22px}
+.kicker{font-variant-caps:all-small-caps;letter-spacing:.24em;color:var(--gold);font-size:1.05rem}
+.title-block h1{font-family:var(--display);font-weight:500;font-size:clamp(3.1rem,15vw,6.4rem);line-height:.92;margin:.12em 0 .18em;color:var(--gold-hi);text-shadow:0 0 42px rgba(224,149,78,.35);text-wrap:balance}
+.title-block p{margin:0;color:var(--ivory);font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,5vw,1.7rem)}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{height:46px;padding:0 20px;border-radius:23px;border:1px solid var(--line);background:rgba(13,18,51,.55);display:inline-flex;align-items:center;gap:9px;font-size:1.06rem;letter-spacing:.03em}
+.btn svg{width:16px;height:16px}
+.btn.gold{border-color:rgba(224,149,78,.85);color:#1a1405;background:linear-gradient(180deg,var(--gold-hi),var(--gold));font-weight:500}
+.hint{text-align:center;color:var(--mist);font-size:.95rem;margin:12px 0 0}
+
+/* the definition page */
+.define{text-align:left}
+.define .word{font-family:var(--display);font-weight:500;font-size:clamp(2.8rem,13vw,4.6rem);line-height:1;color:var(--gold-hi);margin:0 0 .2em;text-shadow:0 0 34px rgba(224,149,78,.3)}
+.define .refers{color:var(--mist);font-size:clamp(1.05rem,4vw,1.2rem);margin:0 0 .4em}
+.define ul{list-style:none;margin:0;padding:0;display:grid;gap:.15em}
+.define li{font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,6.4vw,2.2rem);line-height:1.15}
+.define li.or{font-style:normal;font-family:var(--body);font-size:1rem;color:var(--mist);font-variant-caps:all-small-caps;letter-spacing:.2em}
+
+/* breath cue and round badge */
+.breath{display:block;font-family:var(--display);font-style:italic;font-size:clamp(1.6rem,7vw,2.4rem);color:var(--gold-hi);text-align:center;margin-top:1vh}
+.roundbadge{margin-top:1vh;display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px;border-radius:17px;border:1px solid rgba(224,149,78,.6);background:rgba(13,18,51,.55);font-size:1rem;color:var(--mist);letter-spacing:.04em}
+.roundbadge b{color:var(--gold-hi);font-weight:500}
+.roundbadge .pips{display:inline-flex;gap:5px}
+.roundbadge .pips i{width:8px;height:8px;border-radius:50%;border:1px solid var(--gold)}
+.roundbadge .pips i.on{background:var(--gold-hi);border-color:var(--gold-hi)}
+
+/* words wall */
+.wall{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:.3em .9em;max-width:30rem;font-family:var(--display);font-size:clamp(1.2rem,5vw,1.6rem);line-height:1.25;text-align:center;padding:0 2px;margin-top:1vh}
+.wall span{opacity:0;animation:wordIn 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0s) + var(--i) * 140ms)}
+.wall span.g{color:var(--gold-hi);font-style:italic}
+.wall span.m{color:var(--ministry-hi)}
+
+/* the ask */
+.ask{font-family:var(--display);font-weight:500;font-size:clamp(1.7rem,7.2vw,2.6rem);line-height:1.18;margin:0;text-wrap:balance}
+.yes{font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(2.2rem,10.5vw,4.2rem);line-height:1;color:var(--gold-hi);margin:.2em 0 0;text-shadow:0 0 34px rgba(246,194,122,.45)}
+
+/* steps */
+.rings{list-style:none;margin:.2em 0 0;padding:0;display:grid;gap:.6em}
+.rings li{position:relative;padding-left:2.2em;font-size:clamp(1.06rem,4.1vw,1.24rem);line-height:1.36;opacity:0;animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0s) + var(--o,0s))}
+.rings li::before{content:attr(data-n);position:absolute;left:0;top:.1em;width:1.45em;height:1.45em;border-radius:50%;border:1px solid var(--gold);box-shadow:0 0 0 3px rgba(224,149,78,.14);display:grid;place-items:center;font-size:.82em;color:var(--gold-hi);line-height:1;font-variant-numeric:lining-nums}
+.invite h2{font-family:var(--display);font-weight:500;font-size:clamp(2.4rem,11vw,3.8rem);line-height:1;color:var(--gold-hi);margin:0 0 .35em;text-shadow:0 0 30px rgba(224,149,78,.3)}
+.invite .cta{justify-content:flex-start;margin-top:1.1em}
+
+/* transport */
+.transport{position:absolute;left:0;right:0;bottom:0;z-index:6;padding-top:8px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14px)}
+.transport-inner{display:flex;align-items:center;justify-content:center;gap:12px;max-width:42rem;margin:0 auto}
+.round{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(13,18,51,.6);display:grid;place-items:center;color:var(--ivory)}
+.round svg{width:20px;height:20px}
+.round[disabled]{opacity:.3;cursor:default}
+.play{height:46px;padding:0 20px;white-space:nowrap;border-radius:23px;border:1px solid rgba(224,149,78,.75);background:rgba(36,34,82,.65);color:var(--gold-hi);display:inline-flex;align-items:center;gap:9px;font-size:1.02rem;letter-spacing:.04em;min-width:6.4em;justify-content:center}
+.play svg{width:16px;height:16px}
+.count{font-variant-numeric:lining-nums tabular-nums;color:var(--mist);font-size:.92rem;min-width:3.6em;text-align:center}
+
+/* chapter card */
+.chapter-card{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;pointer-events:none;opacity:0;padding-bottom:18vh}
+.chapter-card.show{animation:card 2.05s ease forwards}
+.chapter-card .num{font-variant-caps:all-small-caps;letter-spacing:.32em;color:var(--gold);font-size:1.1rem}
+.chapter-card h2{font-family:var(--display);font-weight:500;font-size:clamp(2.5rem,12vw,4.8rem);line-height:1;margin:.12em 0 0;color:var(--ivory);text-shadow:0 2px 30px rgba(8,10,30,.8);text-wrap:balance;max-width:14ch}
+@keyframes card{0%{opacity:0;transform:scale(.97)}22%{opacity:1;transform:none}70%{opacity:1}100%{opacity:0;transform:scale(1.02)}}
+
+.musichint{top:auto!important;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);color:var(--gold-hi)!important;border-color:rgba(224,149,78,.6)!important}
+.paused{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 76px);translate:-50% 0;z-index:7;background:rgba(13,18,51,.85);border:1px solid var(--line);border-radius:16px;padding:6px 14px;font-size:.92rem;color:var(--mist);pointer-events:none;white-space:nowrap}
+
+/* chapters sheet */
+.sheet{position:absolute;inset:0;z-index:20;background:rgba(6,7,22,.62);display:flex;align-items:flex-end;justify-content:center}
+.sheet-panel{width:100%;max-width:40rem;max-height:88%;overflow:auto;background:var(--panel);border:1px solid var(--line);border-bottom:0;border-radius:20px 20px 0 0;padding-top:16px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 18px);user-select:text;-webkit-user-select:text}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sheet h3{font-family:var(--display);font-weight:600;font-size:1.6rem;margin:0;color:var(--gold-hi)}
+.sheet h4{font-variant-caps:all-small-caps;letter-spacing:.16em;color:var(--gold);font-weight:500;font-size:1.05rem;margin:1.2em 0 .4em}
+.chlist{list-style:none;margin:.6em 0 0;padding:0;display:grid;gap:4px}
+.chlist button{width:100%;display:flex;align-items:baseline;gap:12px;padding:10px 12px;border-radius:10px;text-align:left;font-size:1.1rem}
+.chlist button:hover,.chlist button.cur{background:rgba(92,80,160,.25)}
+.chlist .rn{color:var(--gold);min-width:2.2em;font-variant-caps:all-small-caps;letter-spacing:.1em}
+.chlist .pg{margin-left:auto;color:var(--mist);font-size:.9rem;font-variant-numeric:lining-nums tabular-nums}
+.sheet p.small{color:var(--mist);font-size:.98rem;margin:.2em 0 .6em;line-height:1.4}
+
+@media (min-width:760px){
+  :root{--top-h:70px;--bot-h:82px}
+  .stage{gap:18px}
+  .copy{max-width:40rem}
+}
+@media (max-height:640px){
+  .quote blockquote{font-size:clamp(1.3rem,5.4vw,2rem)}
+  .lead{font-size:1.06rem}
+  .sub{font-size:.98rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .w,.anim,.wall span,.rings li{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  .chapter-card.show{animation:card 2.05s linear forwards}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="scrim"></div>
+
+  <header class="top gutter">
+    <div class="top-inner">
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <div class="topline">
+        <span class="eyebrow" id="eyebrow"></span>
+        <div class="tools">
+          <button class="icon" id="menuBtn" aria-label="Chapters" title="Chapters">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg>
+          </button>
+          <button class="icon" id="soundBtn" aria-pressed="true" aria-label="Music on or off" title="Music">
+            <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+            <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10z"/><path d="M17 10l4 4M21 10l-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage gutter" id="stage">
+    <div class="upper" id="upper"></div>
+    <div class="copy" id="copy" aria-live="polite"></div>
+  </main>
+
+  <div class="chapter-card" id="chapterCard" aria-hidden="true"></div>
+  <div class="paused" id="paused" hidden>Paused · tap to resume</div>
+  <div class="paused musichint" id="musicHint" hidden>Tap anywhere to start the music</div>
+
+  <nav class="transport gutter" aria-label="Story controls">
+    <div class="transport-inner">
+      <button class="round" id="prevBtn" aria-label="Previous page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <span class="count" id="count">1 / 1</span>
+      <button class="play" id="playBtn" aria-label="Play as a movie"></button>
+      <button class="round" id="nextBtn" aria-label="Next page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-panel gutter">
+      <div class="sheet-head">
+        <h3 id="sheetTitle">Chapters</h3>
+        <button class="round" id="sheetClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <ul class="chlist" id="chlist"></ul>
+      <h4>Where this comes from</h4>
+      <p class="small">The Village Activation Circles guidelines. Activation Circles began in the Core Group in April 2026, within the Ministry Sanctum.</p>
+      <p class="small">Music licensed from Shutterstock. The speaker button, top right, turns it on or off.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+{
+'use strict';
+
+/* ---------- Settings you may want to change ---------- */
+const CONFIG = { musicPath: 'music.mp3' };  // 3:56, edited so it runs the length of the movie
+
+const CHAPTERS = [
+  { num: 'I', title: 'Activation' },
+  { num: 'II', title: 'The Container' },
+  { num: 'III', title: 'Opening the Circle' },
+  { num: 'IV', title: 'The Person of Focus' },
+  { num: 'V', title: 'Turn by Turn' },
+  { num: 'VI', title: 'The Harvest' },
+  { num: 'VII', title: 'It Takes a Village' }
+];
+
+const FLOW = ['sadness', 'rage', 'love', 'elation', 'words', 'movement', 'vocalization', 'song'];
+const FLOW_GOLD = { sadness: 1, rage: 1, love: 1, elation: 1 };
+const NIGHT = { stars: .8, trees: 1, village: .6 };
+const S = o => Object.assign({}, NIGHT, o);
+const LAP = 3.2;  // seconds for the talisman to go once around the circle
+
+/* ---------- The script: one entry per page ---------- */
+const PAGES = [
+  // I · Activation
+  { ch:0, kind:'title', scene:S({ stars:.5, moon:1, glow:.1, fire:.3, embers:.3 }) },
+  { ch:0, kind:'define', scene:S({ moon:.6, fire:.5, embers:1, glow:.15 }) },
+  { ch:0, lead:['Every so often, we as a collective know that something has been activated, that something needs activating, or that embodied, heart-centered action is needed to reach the next level of our co-creation together.'],
+    scene:S({ ring:1, fire:.5, tension:.45 }) },
+  { ch:0, quote:{ text:'These are golden times.', big:true },
+    sub:'Like birth or death, activation tends to be uncomfortable. But when we bring these energies into the full awareness of the group’s collective field, we are energized, uplifted and transformed.',
+    scene:S({ ring:1, fire:.9, embers:1, glow:.6 }) },
+  { ch:0, lead:['Activation Circles are a container for holding us in these times.'], say:0,
+    scene:S({ ring:1, fire:.8, container:1, glow:.3 }) },
+
+  // II · The Container
+  { ch:1, label:'Why we do this', lead:['We began holding Activation Circles for the Core Group in April 2026, starting within the Ministry Sanctum.'],
+    sub:'Then core members asked for a technology we can rely on when “conflict” reaches beyond a disagreement between two or three people and starts to feel like a community-wide challenge.',
+    scene:S({ ring:1, fire:.6, container:.5, tension:.3 }) },
+  { ch:1, label:'The call', lead:['Any community member can call an Activation Circle.'], say:0,
+    sub:'When someone does, many others in the collective are usually feeling the need too, and they resonate with the call.',
+    scene:S({ ring:1, call:1, fire:.25, stars:.9 }) },
+  { ch:1, label:'Hosting and safe space', lead:['Whoever calls the circle hosts it, or finds a community member willing to host in their home, or in a space that supports the full expression of the group.'],
+    scene:S({ ring:1, home:1, fire:.7, village:.3 }) },
+  { ch:1, label:'Facilitation', lead:['One community member comes forward as lead facilitator. Often it’s someone from the Ministry Atrium or Ministry Sanctum, but it can be anyone able to hold the container.'],
+    scene:S({ ring:1, fire:.7, fac:1, container:.5 }) },
+
+  // III · Opening the Circle
+  { ch:2, label:'Grounding and presencing', lead:['We begin together: guided breathwork, movement, meditation or song.'], breathCue:true,
+    scene:S({ ring:1, breath:1, fire:.45 }) },
+  { ch:2, kind:'rounds', label:'Three rounds of heart sharing', lead:['A talisman is passed. In each of three quick rounds, each person speaks one sentence.'],
+    sub:'Within minutes we hear the consciousness of the whole group, spoken through its many parts.',
+    scene:S({ ring:1, talisman:1, fire:.7 }) },
+  { ch:2, label:'Reading the field', lead:['As the rounds go by, the lead facilitator senses the energy of the group.', 'It becomes quite evident who is most activated, who needs to go first.'], say:1,
+    scene:S({ ring:1, pick:1, fire:.6 }) },
+
+  // IV · The Person of Focus
+  { ch:3, lead:['The one receiving the group’s focus may come into the center (generally preferred), or stay seated or standing in the circle.'],
+    sub:'The lead facilitator sits beside them or across from them, gently and lovingly holding them in care, with the supportive presence of the group.',
+    scene:S({ ring:1, focusA:1, holder:1, fire:.4, glow:.3 }) },
+  { ch:3, kind:'words', lead:['Energy moves freely: clearing what no longer serves, reconnecting with the heart’s truth, receiving new clarity and guidance, for themselves and for everyone in the circle.'],
+    scene:S({ ring:1, focusA:1, holder:1, waves:1, fire:.4, embers:.5 }) },
+  { ch:3, label:'The facilitator’s role', lead:['The facilitator may engage them directly, guiding them deeper into their feelings and the movement of energy through their system.'],
+    sub:'When someone else is better placed to hold this person, the facilitator may “pass the hat” to them.',
+    scene:S({ ring:1, focusA:1, holder:1, waves:.4, fire:.4 }), beats:[{ t:4.6, scene:{ holder:0, holder2:1 } }] },
+  { ch:3, label:'The rest of the circle', lead:['Everyone else suspends judgment and sets aside assumptions or adversarial feelings, shifting into complete support.', 'When we support one person, we are supporting each and every one of us.'], say:1,
+    scene:S({ ring:1, focusA:1, holder:1, pull:1, waves:.4, fire:.4 }) },
+  { ch:3, label:'Moving energy together', lead:['We’ll likely feel activated too. This is a time to use our skills for moving, focusing and even transmuting energy.'],
+    sub:'The facilitator may guide us with imagery: a place to send the energy, or a tree of life in the center of the circle, roots and crown, held in a toroidal field.',
+    scene:S({ ring:1, focusA:1, holder:1, tree:1, torus:1, fire:.2, stars:1 }) },
+  { ch:3, lead:['The facilitator tunes into the circle and may invite support for the Person of Focus through touch, words or other direct contact.', 'Always with the full consent and desire of the Person of Focus.'], say:1,
+    scene:S({ ring:1, focusA:1, holder:1, touch:1, waves:.3, fire:.4 }) },
+
+  // V · Turn by Turn
+  { ch:4, label:'Rotation', lead:['By the time one person is complete, it is already evident who is next.'],
+    sub:'The lead facilitator guides the group’s focus to this new person, with the full support of the group.',
+    scene:S({ ring:1, focusA:1, holder:1, fire:.4 }), beats:[{ t:2.4, scene:{ focusA:0, pickB:1 } }, { t:4.4, scene:{ focusB:1, pickB:.35, waves:.6 } }] },
+  { ch:4, label:'When we’re complete', lead:['Everyone may take a turn, or not everyone. The facilitator, with group input, senses when the group feels complete.', 'The objective: move energy and create group cohesion.'], say:1,
+    sub:'When that has happened to a satisfying degree, the circle is complete. Another can be called at any time.',
+    scene:S({ ring:1, container:1, glow:.5, fire:.8, celebrate:.25 }) },
+
+  // VI · The Harvest
+  { ch:5, label:'Closing', lead:['Once the circle is complete, the facilitator leads us in harvesting what we gained and learned from this potent ritual of activation together.'],
+    sub:'Any obvious next steps are noted before the ceremony closes.',
+    scene:S({ ring:1, seeds:1, fire:.6, stars:1, glow:.3 }) },
+
+  // VII · It Takes a Village
+  { ch:6, kind:'ask', ask:'Are you noticing friction, confusion, tiredness or agitation in the group field?',
+    scene:S({ ring:1, tension:1, fire:.3, stars:.6 }) },
+  { ch:6, kind:'yes', ask:'When you read these guidelines, are you feeling a…', yes:'“Fuck yesss! Let’s do this!”',
+    scene:S({ ring:1, celebrate:1, fire:1, embers:1, glow:.6, village:.9 }) },
+  { ch:6, kind:'steps', scene:S({ ring:1, container:.3, fire:.8, village:1, stars:1, motes:.7, dim:.55 }) }
+];
+
+const STEPS = [
+  { n:1, text:'Tell another person, or a few, that it feels like time to call an Activation Circle. Keep asking until one or two others say “Fuck yes! Let’s do it!”' },
+  { n:2, text:'Volunteer to host the circle, or ask one of your fellow “fuck yes” people to host or find the right host.' },
+  { n:3, text:'Reach out to someone you know can do a great job facilitating the circle as described here.' }
+];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const words = s => String(s || '').trim().split(/\s+/).filter(Boolean).length;
+const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+const mixc = (a, b, t) => 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ')';
+const rgba = (c, a) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
+const chapterFirst = CHAPTERS.map((_, c) => PAGES.findIndex(p => p.ch === c));
+const chapterCount = CHAPTERS.map((_, c) => PAGES.filter(p => p.ch === c).length);
+
+/* =====================================================================
+   SCENE: one living world whose settings ease toward each page's targets
+   ===================================================================== */
+const cvs = $('#scene'), g = cvs.getContext('2d');
+const KEYS = ['stars','moon','glow','trees','village','fire','embers','ring','container','tension','call','home','fac','breath','talisman','pick','pickB','focusA','focusB','holder','holder2','waves','pull','tree','torus','touch','celebrate','seeds','motes','dim'];
+const RATE = { ring:.55, trees:.5, focusA:1.1, focusB:1.1, holder:1.2, holder2:1.2, touch:1.2, tree:.6, dim:2.4, home:.8 };
+const cur = {}, tgt = {};
+KEYS.forEach(k => { cur[k] = 0; tgt[k] = 0; });
+function setScene(o, instant) { KEYS.forEach(k => { tgt[k] = (o && o[k] != null) ? o[k] : 0; if (instant) cur[k] = tgt[k]; }); }
+function patchScene(o) { Object.keys(o).forEach(k => { tgt[k] = o[k]; }); }
+
+let W = 0, H = 0, DPR = 1, L = {}, T = 0, talProg = 0;
+const C = {
+  ink: hex('#0b0d2a'), lit: hex('#6a3a2c'), gold: hex('#e0954e'), goldHi: hex('#f6c27a'), ivory: hex('#f8eedf'),
+  ministry: hex('#5a3286'), ministryHi: hex('#a985d8'), conflict: hex('#753800'), conflictHi: hex('#d0702e'),
+  skyTop: hex('#060a24'), skyMid: hex('#141a45'), skyLow: hex('#2e2d68'), treeBack: '#12153d'
+};
+// who is who around the ring (index 0 is front and center, counting around)
+const NRING = 14, A = 8, F = 9, G = 7, B = 4, CALLER = 12, T1 = 6, T2 = 10;  // seats sit half a step off center, so the front pair frames the flame
+
+function resize() {
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  W = cvs.clientWidth; H = cvs.clientHeight;
+  cvs.width = Math.round(W * DPR); cvs.height = Math.round(H * DPR);
+  g.setTransform(DPR, 0, 0, DPR, 0, 0);
+  layout();
+}
+
+function layout() {
+  const r = rng(2026);
+  const portrait = H > W * 1.1;
+  const hy = H * (portrait ? .35 : .4);
+  const RX = Math.min(W * (portrait ? .42 : .3), H * .5);
+  const RY = RX * .34;
+  const fx = W / 2, fy = hy + RY * 1.35;
+  const fh = portrait ? Math.min(H * .068, 66) : Math.min(H * .1, RX * .2, 80);
+  L = { hy, RX, RY, fx, fy, fh, portrait };
+  L.stars = [];
+  for (let i = 0; i < 240; i++) L.stars.push({ x: r() * W, y: Math.pow(r(), 1.35) * hy * .97, s: r() < .07 ? 1.5 + r() * 1.1 : .45 + r() * .9, th: r(), ph: r() * 6.28, sp: .4 + r() * 2 });
+  L.back = [];
+  let x = -14;
+  while (x < W + 14) {
+    const h = H * (.03 + r() * .045), w = h * (.5 + r() * .35);
+    L.back.push({ x, y: hy + 1 + r() * 2.5, h, w, type: r() < .55 ? 0 : 1, d: r() * .55, ph: r() * 6.28 });
+    x += w * .5 + r() * w * .45;
+  }
+  L.huts = [];
+  [-.42, -.33, -.25, .24, .33, .43].forEach(u => L.huts.push({ x: fx + u * W * (portrait ? 1 : .7), s: .8 + r() * .5, ph: r() * 6 }));
+  // the ring of seats
+  L.seats = [];
+  for (let i = 0; i < NRING; i++) {
+    const a = Math.PI / 2 + (i + .5) / NRING * Math.PI * 2;
+    L.seats.push({ a, x: fx + Math.cos(a) * RX, y: fy + Math.sin(a) * RY, hs: .92 + r() * .16, ph: r() * 6.28, sh: r() });
+  }
+  L.center = { x: fx, y: fy - RY * .12 };
+  L.flame = { x: fx, y: fy + RY * .42 };
+  L.hold1 = { x: fx + RX * .26, y: fy + RY * .05 };
+  L.hold2 = { x: fx - RX * .26, y: fy + RY * .05 };
+  L.motes = []; for (let i = 0; i < 60; i++) L.motes.push({ x: r() * W, y: hy - H * .25 + r() * (H * .25 + RY * 3), ph: r() * 6.28, sp: .5 + r(), r: 1 + r() * 1.6 });
+  L.seeds = []; for (let i = 0; i < NRING * 2; i++) L.seeds.push({ from: i % NRING, tx: W * (.06 + r() * .88), ty: hy * (.06 + r() * .62), off: r(), sp: .7 + r() * .6 });
+  L.sparks = []; for (let i = 0; i < 26; i++) L.sparks.push({ ph: r(), sp: .5 + r() * .6, sw: (r() - .5) });
+  const mr = Math.max(10, Math.min(W, H) * .03);
+  const mc = document.createElement('canvas'); mc.width = mc.height = Math.ceil(mr * 2.4 * DPR);
+  const mg = mc.getContext('2d'); mg.scale(DPR, DPR);
+  mg.fillStyle = '#f6c27a'; mg.beginPath(); mg.arc(mr * 1.2, mr * 1.2, mr, 0, 7); mg.fill();
+  mg.globalCompositeOperation = 'destination-out'; mg.beginPath(); mg.arc(mr * 1.62, mr * .98, mr * .9, 0, 7); mg.fill();
+  L.moon = { c: mc, x: W * (portrait ? .8 : .82), y: hy * .26, r: mr };
+}
+
+function backTree(t, grow) {
+  if (grow <= .002) return;
+  const e = easeOut(grow), h = t.h * e, w = t.w * e, sway = Math.sin(T * .6 + t.ph) * h * .012;
+  g.fillStyle = C.treeBack;
+  g.fillRect(t.x - w * .05, t.y - h * .34, w * .1, h * .34);
+  g.beginPath();
+  if (t.type === 0) {
+    for (let k = 0; k < 3; k++) { const ty = t.y - h * .22 - k * h * .22, tw = w * (1 - k * .24); g.moveTo(t.x - tw / 2, ty); g.lineTo(t.x + sway * (k + 1), ty - h * .44); g.lineTo(t.x + tw / 2, ty); g.closePath(); }
+  } else {
+    const cy = t.y - h * .6;
+    g.moveTo(t.x + w * .42 + sway, cy); g.arc(t.x + sway, cy, w * .42, 0, 6.2832);
+    g.moveTo(t.x - w * .1 + sway * 1.4 + w * .3, cy - h * .2); g.arc(t.x - w * .1 + sway * 1.4, cy - h * .2, w * .3, 0, 6.2832);
+  }
+  g.fill();
+}
+
+// one person, seated, seen from behind or in front: a soft mound with a head
+function seated(x, y, h, armUp, col, alpha, rim, rimA) {
+  if (alpha <= .01) return;
+  g.globalAlpha = alpha; g.fillStyle = col; g.strokeStyle = col;
+  const w = h * .36, sh = h * .2, sy = y - h * .62, hr = h * .13, hcy = y - h * .82;
+  g.beginPath();
+  g.moveTo(x - w, y);
+  g.quadraticCurveTo(x - w * .95, y - h * .34, x - sh, sy);
+  g.quadraticCurveTo(x, sy - h * .07, x + sh, sy);
+  g.quadraticCurveTo(x + w * .95, y - h * .34, x + w, y);
+  g.closePath(); g.fill();
+  if (rimA > .02) { g.strokeStyle = rgba(rim, rimA); g.lineWidth = 1.5; g.stroke(); g.strokeStyle = col; }
+  g.beginPath(); g.arc(x, hcy, hr, 0, 6.2832); g.fill();
+  if (rimA > .02) { g.strokeStyle = rgba(rim, rimA); g.lineWidth = 1.5; g.stroke(); g.strokeStyle = col; }
+  if (armUp > .03) {
+    const al = h * .4, a = armUp * 2.5;
+    g.lineWidth = Math.max(1.2, h * .07); g.lineCap = 'round';
+    g.beginPath();
+    g.moveTo(x - sh * .9, sy + h * .04); g.lineTo(x - sh * .9 - Math.sin(a) * al, sy + h * .04 + Math.cos(a) * al);
+    g.moveTo(x + sh * .9, sy + h * .04); g.lineTo(x + sh * .9 + Math.sin(a) * al, sy + h * .04 + Math.cos(a) * al);
+    g.stroke();
+  }
+  g.globalAlpha = 1;
+}
+
+function halo(x, y, rad, col, a) {
+  if (a <= .01) return;
+  g.save(); g.globalCompositeOperation = 'lighter';
+  const rg = g.createRadialGradient(x, y, 0, x, y, rad);
+  rg.addColorStop(0, rgba(col, .75 * a)); rg.addColorStop(.45, rgba(col, .26 * a)); rg.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.beginPath(); g.arc(x, y, rad, 0, 6.2832); g.fill(); g.restore();
+}
+
+function drawFlame(a, embers) {
+  const x = L.flame.x, y = L.flame.y, s = L.fh * .55 * Math.max(a, .001);
+  if (a > .01) {
+    g.fillStyle = '#1a1208'; g.fillRect(x - s * .7, y - s * .12, s * 1.4, s * .14);
+    for (const [col, sc] of [['#cf7f2c', 1], ['#efc062', .68], ['#fff0c6', .36]]) {
+      const fl = s * sc * (1.05 + .18 * Math.sin(T * 9 + sc * 5) + .1 * Math.sin(T * 13.7 + sc));
+      g.fillStyle = col; g.beginPath();
+      g.moveTo(x - s * .48 * sc, y);
+      g.quadraticCurveTo(x - s * .55 * sc, y - fl * .7, x + Math.sin(T * 6.3 + sc * 4) * s * .16, y - fl * 1.45);
+      g.quadraticCurveTo(x + s * .55 * sc, y - fl * .7, x + s * .48 * sc, y);
+      g.closePath(); g.fill();
+    }
+  }
+  if (embers > .01) {
+    const top = L.fh * 6;
+    for (const sp of L.sparks) {
+      const p = (T * .22 * sp.sp + sp.ph) % 1;
+      const ex = x + Math.sin(p * 9 + sp.ph * 20) * L.fh * .5 * p + sp.sw * L.fh * 1.6 * p, ey = y - L.fh * .5 - p * top;
+      g.fillStyle = rgba(C.goldHi, embers * (1 - p) * .95); g.fillRect(ex, ey, 1.8, 1.8);
+    }
+  }
+}
+
+function drawContainer(a) {
+  if (a < .01) return;
+  const { fx, fy, RX, RY } = L, pulse = .85 + .15 * Math.sin(T * 1.2);
+  g.save(); g.globalCompositeOperation = 'lighter';
+  g.strokeStyle = rgba(C.goldHi, .5 * a * pulse); g.lineWidth = 1.4;
+  g.beginPath(); g.ellipse(fx, fy, RX * 1.2, RY * 1.25, 0, 0, 6.2832); g.stroke();
+  // a soft dome over the circle
+  const dh = RX * .95;
+  const dg = g.createLinearGradient(0, fy - dh, 0, fy);
+  dg.addColorStop(0, rgba(C.goldHi, .0)); dg.addColorStop(1, rgba(C.gold, .1 * a));
+  g.fillStyle = dg;
+  g.beginPath(); g.ellipse(fx, fy, RX * 1.2, dh, 0, Math.PI, 0); g.closePath(); g.fill();
+  g.strokeStyle = rgba(C.goldHi, .22 * a * pulse); g.lineWidth = 1;
+  g.beginPath(); g.ellipse(fx, fy, RX * 1.2, dh, 0, Math.PI, 0); g.stroke();
+  g.beginPath(); g.ellipse(fx, fy, RX * .55, dh, 0, Math.PI, 0); g.stroke();
+  g.restore();
+}
+
+function drawHome(a) {
+  if (a < .01) return;
+  const { fx, fy, RX, RY } = L, e = easeOut(a);
+  const w = Math.min(RX * 1.22, W * .47), bot = fy + RY * 1.9, wallTop = fy - RX * .55, peak = wallTop - RX * .62 * e;
+  g.save();
+  const hf = g.createLinearGradient(0, peak, 0, bot);
+  hf.addColorStop(0, rgba(hex('#2a2150'), .6 * a)); hf.addColorStop(.7, rgba(hex('#2a2150'), .45 * a)); hf.addColorStop(1, 'rgba(42,33,80,0)');
+  g.fillStyle = hf;
+  g.beginPath(); g.moveTo(fx - w, bot); g.lineTo(fx - w, wallTop); g.lineTo(fx, peak); g.lineTo(fx + w, wallTop); g.lineTo(fx + w, bot); g.closePath(); g.fill();
+  g.globalCompositeOperation = 'lighter';
+  const wg = g.createRadialGradient(fx, fy, 0, fx, fy, w * 1.1);
+  wg.addColorStop(0, rgba(C.gold, .28 * a)); wg.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = wg; g.fillRect(fx - w, peak, w * 2, bot - peak);
+  g.strokeStyle = rgba(C.goldHi, .7 * a); g.lineWidth = 1.6; g.lineJoin = 'round';
+  g.beginPath(); g.moveTo(fx - w - 8, wallTop + 6); g.lineTo(fx, peak - 4); g.lineTo(fx + w + 8, wallTop + 6); g.stroke();
+  g.strokeStyle = rgba(C.goldHi, .35 * a); g.lineWidth = 1.1;
+  for (const sx of [-1, 1]) {
+    const lg = g.createLinearGradient(0, wallTop, 0, bot); lg.addColorStop(0, rgba(C.goldHi, .4 * a)); lg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.strokeStyle = lg; g.beginPath(); g.moveTo(fx + sx * w, wallTop); g.lineTo(fx + sx * w, bot); g.stroke();
+  }
+  // a heart-shaped lantern under the peak
+  const hx = fx, hy2 = peak + RX * .3, hs = RX * .07;
+  g.fillStyle = rgba(C.goldHi, .8 * a * (.8 + .2 * Math.sin(T * 2)));
+  g.beginPath(); g.moveTo(hx, hy2 + hs * .9);
+  g.bezierCurveTo(hx - hs * 1.6, hy2 - hs * .2, hx - hs * .6, hy2 - hs * 1.3, hx, hy2 - hs * .4);
+  g.bezierCurveTo(hx + hs * .6, hy2 - hs * 1.3, hx + hs * 1.6, hy2 - hs * .2, hx, hy2 + hs * .9);
+  g.fill();
+  g.restore();
+}
+
+function drawWaves(a) {
+  if (a < .01) return;
+  const c0 = focusPoint();
+  g.save(); g.globalCompositeOperation = 'lighter';
+  for (let k = 0; k < 4; k++) {
+    const p = ((T * .32) + k / 4) % 1, rx = L.RX * (.12 + p * 1.25), ry = rx * (L.RY / L.RX) * 1.1;
+    g.strokeStyle = mixcA(C.ministryHi, C.goldHi, p, a * (1 - p) * .85); g.lineWidth = 2.2 - p * 1.4;
+    g.beginPath(); g.ellipse(c0.x, c0.y + L.RY * .12, rx, ry, 0, 0, 6.2832); g.stroke();
+  }
+  g.restore();
+}
+function mixcA(a, b, t, al) { return 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ',' + al + ')'; }
+
+function focusPoint() {
+  const fa = clamp(cur.focusA, 0, 1), fb = clamp(cur.focusB, 0, 1);
+  if (fb > fa) return { x: lerp(L.seats[B].x, L.center.x, fb), y: lerp(L.seats[B].y, L.center.y, fb) };
+  return { x: lerp(L.seats[A].x, L.center.x, fa), y: lerp(L.seats[A].y, L.center.y, fa) };
+}
+
+function drawTree(a) {
+  if (a < .01) return;
+  const e = easeOut(a), x = L.center.x, base = L.fy + L.RY * .2, top = base - Math.min(H * .25, L.RX * 1.25) * e;
+  g.save(); g.globalCompositeOperation = 'lighter'; g.lineCap = 'round';
+  g.strokeStyle = rgba(C.goldHi, .75 * a); g.lineWidth = 2.4;
+  g.beginPath(); g.moveTo(x, base); g.bezierCurveTo(x - 4, lerp(base, top, .35), x + 4, lerp(base, top, .7), x, top); g.stroke();
+  const CR = L.RX * .42 * e;
+  for (let k = 0; k < 9; k++) {
+    const ang = -Math.PI / 2 + (k - 4) * .34, sway = Math.sin(T * .7 + k) * .03;
+    const ex = x + Math.cos(ang + sway) * CR, ey = top + CR * .25 + Math.sin(ang + sway) * CR * .9;
+    g.strokeStyle = rgba(C.goldHi, .55 * a); g.lineWidth = 1.4;
+    g.beginPath(); g.moveTo(x, top + CR * .35); g.quadraticCurveTo(lerp(x, ex, .5), lerp(top + CR * .35, ey, .1), ex, ey); g.stroke();
+    g.fillStyle = rgba(C.goldHi, a * (.6 + .4 * Math.sin(T * 1.8 + k))); g.beginPath(); g.arc(ex, ey, 2.3, 0, 6.2832); g.fill();
+  }
+  for (let k = 0; k < 7; k++) {
+    const sx = (k - 3) / 3, ex = x + sx * L.RX * .7 * e, ey = base + L.RY * (.55 + .25 * (1 - Math.abs(sx))) * e;
+    g.strokeStyle = rgba(C.ministryHi, .55 * a); g.lineWidth = 1.3;
+    g.beginPath(); g.moveTo(x, base); g.quadraticCurveTo(lerp(x, ex, .3), base + L.RY * .45 * e, ex, ey); g.stroke();
+  }
+  g.restore();
+}
+
+function drawTorus(a) {
+  if (a < .01) return;
+  const x = L.center.x, base = L.fy + L.RY * .6, top = L.fy + L.RY * .2 - Math.min(H * .25, L.RX * 1.25) * .98;
+  const mid = (base + top) / 2, hh = (base - top) / 2;
+  g.save(); g.globalCompositeOperation = 'lighter'; g.lineWidth = 1.2;
+  for (let k = 0; k < 16; k++) {
+    const th = k / 16 * Math.PI * 2 + T * .35, s = Math.cos(th), front = Math.sin(th);
+    const wx = L.RX * 1.05 * s;
+    g.strokeStyle = mixcA(C.ministryHi, C.goldHi, .5 + .5 * front, a * (.08 + .2 * (front + 1) / 2));
+    g.beginPath(); g.moveTo(x, top);
+    g.bezierCurveTo(x + wx * 1.25, top - hh * .25, x + wx * 1.25, base + hh * .25, x, base);
+    g.stroke();
+  }
+  // energy riding the loops
+  for (let k = 0; k < 14; k++) {
+    const p = (T * .18 + k / 14) % 1, th = k / 14 * Math.PI * 2 + T * .35, s = Math.cos(th), wx = L.RX * 1.05 * s;
+    const u = 1 - p, bx = u * u * u * x + 3 * u * u * p * (x + wx * 1.25) + 3 * u * p * p * (x + wx * 1.25) + p * p * p * x;
+    const by = u * u * u * top + 3 * u * u * p * (top - hh * .25) + 3 * u * p * p * (base + hh * .25) + p * p * p * base;
+    g.fillStyle = rgba(C.goldHi, a * .9 * Math.sin(p * Math.PI)); g.fillRect(bx - 1, by - 1, 2.2, 2.2);
+  }
+  g.restore();
+}
+
+function talismanAngle() { return Math.PI / 2 + Math.min(talProg, 3) * Math.PI * 2; }
+function holderOfTalisman() {
+  const a = ((talismanAngle() - Math.PI / 2) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+  return (Math.round(a / (Math.PI * 2) * NRING - .5) + NRING) % NRING;
+}
+
+function frame(dt) {
+  KEYS.forEach(key => { cur[key] += (tgt[key] - cur[key]) * (1 - Math.exp(-dt * (RATE[key] || 1.05))); });
+  const c = cur;
+  g.clearRect(0, 0, W, H);
+
+  // sky
+  const sky = g.createLinearGradient(0, 0, 0, L.hy);
+  sky.addColorStop(0, rgba(C.skyTop, 1)); sky.addColorStop(.62, rgba(C.skyMid, 1)); sky.addColorStop(1, rgba(C.skyLow, 1));
+  g.fillStyle = sky; g.fillRect(0, 0, W, L.hy + 2);
+  if (c.stars > .01) {
+    for (const s of L.stars) {
+      const v = clamp((c.stars - s.th * .95) * 5, 0, 1); if (v <= 0) continue;
+      g.fillStyle = rgba(s.s > 1.4 ? C.goldHi : C.ivory, v * (.55 + .45 * Math.sin(T * s.sp + s.ph)));
+      g.fillRect(s.x, s.y, s.s, s.s);
+    }
+  }
+  if (c.moon > .01) { g.globalAlpha = c.moon; g.drawImage(L.moon.c, L.moon.x - L.moon.r * 1.2, L.moon.y - L.moon.r * 1.2, L.moon.r * 2.4, L.moon.r * 2.4); g.globalAlpha = 1; }
+
+  // horizon light
+  const hg = c.glow * .5 + c.fire * .08;
+  if (hg > .01) {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    const rg = g.createRadialGradient(L.fx, L.hy, 0, L.fx, L.hy, Math.max(W, H) * .6);
+    rg.addColorStop(0, rgba(C.gold, .42 * hg)); rg.addColorStop(.4, rgba(C.gold, .1 * hg)); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.fillRect(0, 0, W, L.hy + L.RY * 2); g.restore();
+  }
+
+  for (const t of L.back) backTree(t, clamp((c.trees * 1.6 - t.d) / .6, 0, 1));
+  if (c.village > .01) {
+    for (const hu of L.huts) {
+      const s = L.fh * .55 * hu.s, x = hu.x, y = L.hy + 2;
+      g.globalAlpha = c.village; g.fillStyle = '#13163e';
+      g.fillRect(x - s * .6, y - s * .7, s * 1.2, s * .7);
+      g.beginPath(); g.moveTo(x - s * .75, y - s * .68); g.lineTo(x, y - s * 1.2); g.lineTo(x + s * .75, y - s * .68); g.closePath(); g.fill();
+      g.fillStyle = rgba(C.goldHi, .75 + .25 * Math.sin(T * .8 + hu.ph)); g.fillRect(x - s * .18, y - s * .5, s * .26, s * .24);
+      g.globalAlpha = 1;
+    }
+  }
+
+  // ground and clearing
+  const gr = g.createLinearGradient(0, L.hy, 0, H);
+  gr.addColorStop(0, '#1a1c4e'); gr.addColorStop(.22, '#0f1236'); gr.addColorStop(1, '#06071c');
+  g.fillStyle = gr; g.fillRect(0, L.hy, W, H - L.hy);
+  g.save(); g.translate(L.fx, L.fy); g.scale(1, (L.RY / L.RX) * 1.35);
+  const cg = g.createRadialGradient(0, 0, 0, 0, 0, L.RX * 1.5);
+  cg.addColorStop(0, 'rgba(98,86,170,' + (.2 + c.glow * .1 + c.fire * .06) + ')'); cg.addColorStop(.6, 'rgba(98,86,170,.08)'); cg.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = cg; g.beginPath(); g.arc(0, 0, L.RX * 1.5, 0, 6.2832); g.fill(); g.restore();
+
+  drawHome(c.home);
+  drawContainer(c.container);
+  drawWaves(c.waves);
+  drawTree(c.tree);
+
+  // people
+  const list = [];
+  const fill = c.ring * NRING;
+  const flameLight = clamp(c.fire + c.glow * .5 + c.home * .4, 0, 1);
+  const fp = focusPoint();
+  const talHolder = c.talisman > .05 ? holderOfTalisman() : -1;
+  for (let i = 0; i < NRING; i++) {
+    const s = L.seats[i];
+    const ord = (i <= NRING / 2 ? i * 2 : (NRING - i) * 2 - 1);  // appear outward from the front, both sides at once
+    const v = clamp(fill - ord, 0, 1); if (v <= 0) continue;
+    let x = s.x, y = s.y, glow = 0, gcol = C.goldHi;
+    if (i === A) { x = lerp(x, L.center.x, c.focusA); y = lerp(y, L.center.y, c.focusA); glow = Math.max(c.pick * (.65 + .35 * Math.sin(T * 3)), c.focusA * .6); gcol = c.pick > c.focusA ? C.goldHi : C.ministryHi; }
+    if (i === B) { x = lerp(x, L.center.x, c.focusB); y = lerp(y, L.center.y, c.focusB); glow = Math.max(c.pickB * (.65 + .35 * Math.sin(T * 3)), c.focusB * .6); gcol = c.pickB > c.focusB ? C.goldHi : C.ministryHi; }
+    if (i === F) { x = lerp(x, L.hold1.x, c.holder); y = lerp(y, L.hold1.y, c.holder); glow = Math.max(glow, c.fac * (.7 + .3 * Math.sin(T * 2.4))); }
+    if (i === G) { x = lerp(x, L.hold2.x, c.holder2); y = lerp(y, L.hold2.y, c.holder2); }
+    if (i === T1 || i === T2) { x = lerp(x, lerp(x, fp.x, .45), c.touch); y = lerp(y, lerp(y, fp.y, .45), c.touch); }
+    if (c.call > .01) {
+      const d = Math.min(Math.abs(i - CALLER), NRING - Math.abs(i - CALLER));
+      const lit = clamp(pageT * 1.1 - .4 - d * .55, 0, 1);
+      glow = Math.max(glow, c.call * (d === 0 ? .7 + .3 * Math.sin(T * 4) : lit * (.45 + .2 * Math.sin(T * 2 + i))));
+    }
+    if (i === talHolder) glow = Math.max(glow, c.talisman * .5);
+    const depth = clamp((y - (L.fy - L.RY)) / (2 * L.RY), 0, 1);
+    const h = L.fh * (.72 + .42 * depth) * s.hs;
+    const back = y < L.fy + L.RY * .3;
+    const col = mixc(C.ink, C.lit, flameLight * (back ? .55 + .15 * s.sh : .12));
+    const t = T * (.9 + s.hs * .2);
+    const bounce = Math.abs(Math.sin(t * 3 + s.ph)) * h * .06 * c.celebrate;
+    const arms = c.celebrate * (.55 + .45 * Math.sin(t * 1.7 + s.ph));
+    list.push({ y, draw: () => { halo(x, y - h * .55, h * 1.3, gcol, glow * v); seated(x, y - bounce - (1 - v) * h * .25, h, arms, col, v, gcol, glow * v * .9); } });
+  }
+  list.push({ y: L.flame.y, draw: () => drawFlame(c.fire, c.embers) });
+  if (c.talisman > .01) {
+    const a = talismanAngle(), tx = L.fx + Math.cos(a) * L.RX * .84, ty = L.fy + Math.sin(a) * L.RY * .84;
+    list.push({ y: ty + .5, draw: () => { halo(tx, ty - L.fh * .42, L.fh * .55, C.goldHi, c.talisman); g.fillStyle = rgba(C.ivory, c.talisman); g.beginPath(); g.arc(tx, ty - L.fh * .42, 2.6, 0, 6.2832); g.fill(); } });
+  }
+  list.sort((p, q) => p.y - q.y);
+  for (const it of list) it.draw();
+
+  // firelight
+  if (c.fire > .01) {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    const rr = L.fh * 5, fl = .9 + .1 * Math.sin(T * 11) + .05 * Math.sin(T * 17);
+    const rg = g.createRadialGradient(L.flame.x, L.flame.y - L.fh * .3, 0, L.flame.x, L.flame.y - L.fh * .3, rr);
+    rg.addColorStop(0, 'rgba(255,190,100,' + (.36 * c.fire * fl) + ')'); rg.addColorStop(.35, 'rgba(214,140,60,' + (.12 * c.fire) + ')'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.fillRect(L.flame.x - rr, L.flame.y - rr, rr * 2, rr * 2); g.restore();
+  }
+
+  drawTorus(c.torus);
+
+  // support flowing from the circle to the person of focus
+  if (c.pull > .01) {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < NRING; i++) {
+      if (i === A || i === B) continue;
+      const s = L.seats[i], sy = s.y - L.fh * .5, ty = fp.y - L.fh * .55;
+      for (let k = 0; k < 3; k++) {
+        const p = (T * .35 + k / 3 + i * .07) % 1;
+        g.fillStyle = rgba(C.goldHi, c.pull * Math.sin(p * Math.PI) * .9);
+        g.beginPath(); g.arc(lerp(s.x, fp.x, p), lerp(sy, ty, p), 1.8, 0, 6.2832); g.fill();
+      }
+      g.strokeStyle = rgba(C.gold, c.pull * .12); g.lineWidth = 1;
+      g.beginPath(); g.moveTo(s.x, sy); g.lineTo(fp.x, ty); g.stroke();
+    }
+    g.restore();
+  }
+
+  // friction in the field
+  if (c.tension > .01) {
+    const r = rng(Math.floor(T * 2.6) + 7);
+    g.save(); g.globalCompositeOperation = 'lighter'; g.lineWidth = 1.4; g.lineJoin = 'round';
+    for (let k = 0; k < 5; k++) {
+      const i = Math.floor(r() * NRING), j = (i + 2 + Math.floor(r() * 9)) % NRING;
+      const a = L.seats[i], b = L.seats[j], ay = a.y - L.fh * .55, by = b.y - L.fh * .55;
+      const fl = r() < .5 ? 1 : .55;
+      g.strokeStyle = rgba(C.conflictHi, c.tension * .55 * fl);
+      g.beginPath(); g.moveTo(a.x, ay);
+      const n = 7;
+      for (let m = 1; m < n; m++) g.lineTo(lerp(a.x, b.x, m / n) + (r() - .5) * 14, lerp(ay, by, m / n) + (r() - .5) * 14 - Math.sin(m / n * Math.PI) * L.RY * .6);
+      g.lineTo(b.x, by); g.stroke();
+    }
+    g.restore();
+  }
+
+  // the harvest: lights rise from each person and become stars
+  if (c.seeds > .01) {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    for (const s of L.seeds) {
+      const st = L.seats[s.from], ox = st.x, oy = st.y - L.fh * .6;
+      g.fillStyle = rgba(C.goldHi, c.seeds * .8 * (.6 + .4 * Math.sin(T * 1.7 + s.off * 9))); g.fillRect(s.tx - 1, s.ty - 1, 2.2, 2.2);
+      const p = (T * .05 * s.sp + s.off) % 1, u = 1 - p;
+      const cx = (ox + s.tx) / 2, cy = Math.min(oy, s.ty) + (oy - s.ty) * .2;
+      const x = u * u * ox + 2 * u * p * cx + p * p * s.tx, y = u * u * oy + 2 * u * p * cy + p * p * s.ty;
+      const rg = g.createRadialGradient(x, y, 0, x, y, 6); rg.addColorStop(0, rgba(C.goldHi, c.seeds * Math.sin(p * Math.PI))); rg.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = rg; g.beginPath(); g.arc(x, y, 6, 0, 6.2832); g.fill();
+    }
+    g.restore();
+  }
+
+  if (c.motes > .01) {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    for (const m of L.motes) {
+      const x = m.x + Math.sin(T * .2 * m.sp + m.ph) * 30, y = m.y + Math.sin(T * .13 * m.sp + m.ph * 2) * 14;
+      const b = Math.pow(.5 + .5 * Math.sin(T * 1.5 * m.sp + m.ph), 2) * c.motes;
+      g.fillStyle = rgba(C.goldHi, b); g.fillRect(x - m.r / 2, y - m.r / 2, m.r, m.r);
+    }
+    g.restore();
+  }
+
+  if (c.breath > .01) {
+    const b = breathCurve();
+    const bx = L.fx, by = L.fy - L.RY * .6, br = L.RX * (.5 + .55 * b);
+    g.save(); g.globalCompositeOperation = 'lighter';
+    const rg = g.createRadialGradient(bx, by, 0, bx, by, br);
+    rg.addColorStop(0, 'rgba(255,240,205,' + (c.breath * (.22 + .28 * b)) + ')'); rg.addColorStop(.5, 'rgba(169,133,216,' + (c.breath * (.1 + .12 * b)) + ')'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.beginPath(); g.arc(bx, by, br, 0, 6.2832); g.fill(); g.restore();
+  }
+
+  if (c.dim > .01) { g.fillStyle = 'rgba(8,9,28,' + (c.dim * .55) + ')'; g.fillRect(0, 0, W, H); }
+  const vg = g.createRadialGradient(W / 2, H * .4, Math.min(W, H) * .3, W / 2, H * .4, Math.max(W, H) * .85);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(5,6,20,.55)');
+  g.fillStyle = vg; g.fillRect(0, 0, W, H);
+}
+
+function breathCurve() {
+  const u = ((T / (RM ? .25 : 1)) % 10) / 10;
+  return u < .4 ? (1 - Math.cos(Math.PI * u / .4)) / 2 : (1 + Math.cos(Math.PI * (u - .4) / .6)) / 2;
+}
+function breathIn() { return ((T / (RM ? .25 : 1)) % 10) / 10 < .4; }
+
+/* =====================================================================
+   MUSIC: one track edited to the length of the movie. In movie mode it follows the story:
+   it starts from the matching spot, pauses when the movie pauses, and loops after the end.
+   ===================================================================== */
+const Amb = {
+  el: null, on: false, was: false, pending: null, blocked: false,
+  init() {
+    if (this.el) return;
+    const a = new Audio(CONFIG.musicPath); a.preload = 'auto'; a.loop = true; a.setAttribute('playsinline', '');
+    a.addEventListener('loadedmetadata', () => { if (this.pending != null) { try { a.currentTime = this.pending; } catch (e) {} this.pending = null; } });
+    a.addEventListener('playing', () => { this.blocked = false; musicHint(); });
+    this.el = a;
+  },
+  start() {
+    this.init(); this.on = true;
+    try {
+      const p = this.el.play();
+      if (p && p.catch) p.catch(() => { if (this.el.paused) { this.on = false; this.blocked = true; musicHint(); } });
+    } catch (e) { this.on = false; this.blocked = true; musicHint(); }
+  },
+  stop() { this.on = false; if (this.el) try { this.el.pause(); } catch (e) {} },
+  hold(h) { if (!this.el || !this.on) return; try { if (h) this.el.pause(); else { const p = this.el.play(); if (p && p.catch) p.catch(() => {}); } } catch (e) {} },
+  seek(t) {
+    this.init();
+    if (this.el.readyState >= 1 && isFinite(this.el.duration)) { try { this.el.currentTime = Math.min(t, this.el.duration - .5); } catch (e) {} }
+    else this.pending = t;
+  },
+  time() { return this.el ? this.el.currentTime : 0; },
+  suspend() { if (this.on) { this.was = true; this.stop(); } },
+  resume() { if (this.was) { this.was = false; this.start(); } }
+};
+let soundOn = true;
+// shown only if the phone or browser refused to start the sound
+function musicHint() { const h = $('#musicHint'); if (h) h.hidden = !(Amb.blocked && soundOn); }
+function setSound(on) {
+  soundOn = on;
+  $('#soundBtn').setAttribute('aria-pressed', String(on));
+  if (on) { if (movie) Amb.seek(movieAt(idx) + pageT); Amb.start(); } else { Amb.stop(); Amb.blocked = false; }
+  musicHint();
+}
+// where the music should be when the movie reaches page i (the movie starts on page 2)
+function movieAt(i) {
+  let t = 0;
+  for (let k = 1; k < i; k++) t += readTime(PAGES[k]) + (chapterFirst[PAGES[k].ch] === k && PAGES[k].ch > 0 ? 1.75 : 0);
+  return t;
+}
+function syncMusic(force) {
+  if (!movie || !soundOn) return;
+  const want = movieAt(idx) + pageT;
+  if (force || Math.abs(Amb.time() - want) > 3) Amb.seek(want);
+}
+// called on every tap, click and key press: starts the music if it should be playing and isn't
+function startMusicOnce() {
+  if (!soundOn || musicHeld) return;
+  if (Amb.el && !Amb.el.paused) return;
+  Amb.start();
+}
+
+/* =====================================================================
+   STORY: pages, movie mode, controls
+   ===================================================================== */
+let musicHeld = false;
+const copyEl = $('#copy'), upperEl = $('#upper'), cardEl = $('#chapterCard');
+let idx = 0, movie = false, paused = false, pageT = 0, hold = 6, sched = [], swapTimer = null, wakeLock = null;
+
+function quoteHTML(q, o) {
+  const ws = q.text.split(' ');
+  const body = ws.map((w, i) => '<span class="w" style="--i:' + i + ';--o:' + o + 's">' + esc(w) + '</span>').join(' ');
+  return '<figure class="quote' + (q.big ? ' big' : '') + '"><blockquote>' + body + '</blockquote>' +
+    (q.credit ? '<figcaption class="anim" style="--o:' + (o + ws.length * .046 + .25).toFixed(2) + 's"><span class="credit">' + esc(q.credit) + '</span></figcaption>' : '') + '</figure>';
+}
+
+function render(p) {
+  let up = '', cp = '';
+  const label = p.label ? '<p class="label anim" style="--o:0s">' + esc(p.label) + '</p>' : '';
+  const leads = (p.lead || []).map((t, k) => '<p class="lead anim' + (p.say === k ? ' say' : '') + '" style="--o:' + (.15 + k * .9) + 's">' + esc(t) + '</p>').join('');
+  let o = .15 + (p.lead ? p.lead.length * .9 : 0);
+  if (p.kind === 'title') {
+    cp = '<div class="title-block"><div class="kicker anim" style="--o:.2s">Temple of Living Eros · Village</div><h1 class="anim" style="--o:.5s">Activation Circles</h1><p class="anim" style="--o:1s">It takes a village.</p></div>' +
+      '<div class="cta anim" style="--o:1.4s"><button class="btn gold" data-act="movie"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Play as a movie</button><button class="btn" data-act="next">Turn the pages</button></div>' +
+      '<p class="hint anim" style="--o:1.7s">Tap the right side to turn a page, the left to go back.<br>Music is on. Tap the speaker, top right, to mute it.</p>';
+  } else if (p.kind === 'define') {
+    cp = '<div class="define"><p class="word anim" style="--o:.2s">Activation</p><p class="refers anim" style="--o:.8s">refers to the state of</p><ul>' +
+      '<li class="anim" style="--o:1.4s">feeling activated,</li><li class="anim" style="--o:2.2s">needing activation,</li><li class="or anim" style="--o:3s">or</li><li class="anim" style="--o:3.5s">desiring action.</li></ul></div>';
+  } else if (p.kind === 'ask') {
+    cp = '<p class="ask anim" style="--o:.2s">' + esc(p.ask) + '</p>';
+  } else if (p.kind === 'yes') {
+    cp = '<p class="ask anim" style="--o:.2s">' + esc(p.ask) + '</p><p class="yes anim" style="--o:1.6s">' + esc(p.yes) + '</p>';
+  } else if (p.kind === 'steps') {
+    cp = '<div class="invite"><h2 class="anim" style="--o:.2s">Call a circle.</h2><ul class="rings">' +
+      STEPS.map((s, k) => '<li data-n="' + s.n + '" style="--o:' + (.7 + k * 1.2).toFixed(1) + 's">' + esc(s.text) + '</li>').join('') + '</ul>' +
+      '<div class="cta anim" style="--o:4.4s"><button class="btn" data-act="again"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Watch again</button><button class="btn" data-act="start">Back to the start</button></div></div>';
+  } else {
+    cp = label + leads;
+    if (p.quote) { cp += quoteHTML(p.quote, o); o += words(p.quote.text) * .046 + .6; }
+    if (p.sub) cp += '<p class="sub anim" style="--o:' + o.toFixed(2) + 's">' + esc(p.sub) + '</p>';
+    if (p.breathCue) up = '<span class="breath anim" id="breathCue" style="--o:1s">breathe in</span>';
+    if (p.kind === 'rounds') up = '<div class="roundbadge anim" id="roundBadge" style="--o:.6s"><span id="roundText">The talisman is passed</span><span class="pips"><i></i><i></i><i></i></span></div>';
+    if (p.kind === 'words') up = '<div class="wall" aria-label="How energy may move">' + FLOW.map((w, k) => '<span class="' + (FLOW_GOLD[w] ? 'g' : 'm') + '" style="--i:' + k + '">' + esc(w) + '</span>').join('') + '</div>';
+  }
+  return { up, cp };
+}
+
+function readTime(p) {
+  let n = words(p.quote && p.quote.text) + words(p.sub) + words(p.label) + words(p.ask) + words(p.yes);
+  (p.lead || []).forEach(t => n += words(t));
+  let t = Math.max(4.2, 1.4 + n / 4.2);
+  if (p.kind === 'title') t = 4;
+  if (p.kind === 'define') t = 7;
+  if (p.kind === 'rounds') t = Math.max(t, 1 + LAP * 3 + 2.2);
+  if (p.kind === 'words') t += 2;
+  if (p.kind === 'yes') t += 2;
+  if (p.beats) t = Math.max(t, p.beats[p.beats.length - 1].t + 3);
+  if (p.kind === 'steps') t = 12;
+  return t;
+}
+
+function go(i, opts) {
+  opts = opts || {};
+  i = clamp(i, 0, PAGES.length - 1);
+  const prev = idx, p = PAGES[i];
+  const forward = i > prev || opts.jump;
+  sched = []; pageT = 0;
+  idx = i;
+  if (p.kind === 'rounds') talProg = 0;
+  const showCard = chapterFirst[p.ch] === i && p.ch > 0 && !opts.instant && forward;
+  const delay = showCard ? 1.75 : 0;
+  hold = delay + readTime(p);
+  setScene(p.scene, opts.instant);
+  if (showCard) {
+    cardEl.innerHTML = '<div class="num">Chapter ' + CHAPTERS[p.ch].num + '</div><h2>' + esc(CHAPTERS[p.ch].title) + '</h2>';
+    cardEl.classList.remove('show'); void cardEl.offsetWidth; cardEl.classList.add('show');
+  } else cardEl.classList.remove('show');
+  const html = render(p);
+  const swapIn = () => {
+    upperEl.classList.remove('leaving'); copyEl.classList.remove('leaving');
+    copyEl.style.setProperty('--d', delay + 's'); upperEl.style.setProperty('--d', delay + 's');
+    upperEl.innerHTML = html.up; copyEl.innerHTML = html.cp;
+  };
+  clearTimeout(swapTimer);
+  if (opts.instant || (!copyEl.innerHTML && !upperEl.innerHTML)) swapIn();
+  else { upperEl.classList.add('leaving'); copyEl.classList.add('leaving'); swapTimer = setTimeout(swapIn, 300); }
+  (p.beats || []).forEach(b => sched.push({ at: delay + b.t, fn: () => patchScene(b.scene) }));
+  p.roundsStart = delay + 1;
+  updateChrome();
+  if (movie) syncMusic(false);
+  try { history.replaceState(null, '', '#p' + (i + 1)); } catch (e) {}
+  if (i === PAGES.length - 1 && movie) setMovie(false);
+}
+
+function updateChrome() {
+  const p = PAGES[idx];
+  $('#eyebrow').innerHTML = '<b>' + CHAPTERS[p.ch].num + '</b> · ' + esc(CHAPTERS[p.ch].title);
+  $('#count').textContent = (idx + 1) + ' / ' + PAGES.length;
+  $('#prevBtn').disabled = idx === 0;
+  $('#nextBtn').disabled = idx === PAGES.length - 1;
+  const pb = $('#playBtn');
+  pb.innerHTML = movie && !paused
+    ? '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>Pause'
+    : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>' + (movie ? 'Resume' : 'Play');
+  pb.setAttribute('aria-label', movie && !paused ? 'Pause the movie' : movie ? 'Resume the movie' : 'Play as a movie from this page');
+  pb.hidden = !movie && (idx === 0 || idx === PAGES.length - 1);
+  $('#paused').hidden = !(movie && paused);
+  updateBars();
+}
+function updateBars() {
+  const p = PAGES[idx], bars = $('#bars').children;
+  for (let c = 0; c < CHAPTERS.length; c++) {
+    let f = 0;
+    if (c < p.ch) f = 1;
+    else if (c === p.ch) { const k = idx - chapterFirst[c], n = chapterCount[c]; f = movie ? (k + clamp(pageT / hold, 0, 1)) / n : (k + 1) / n; }
+    bars[c].firstChild.style.width = (f * 100).toFixed(1) + '%';
+  }
+}
+async function setMovie(on) {
+  movie = on; paused = false;
+  if (on) { try { if (navigator.wakeLock) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) { wakeLock = null; } }
+  else if (wakeLock) { try { wakeLock.release(); } catch (e) {} wakeLock = null; }
+  updateChrome();
+}
+function togglePause() { if (!movie) return; paused = !paused; updateChrome(); }
+function startMovieFrom(i) { startMusicOnce(); setMovie(true); go(i, { jump: true }); syncMusic(true); }
+
+function updateRounds() {
+  const p = PAGES[idx];
+  if (p.kind !== 'rounds') return;
+  talProg = clamp((pageT - p.roundsStart) / LAP, 0, 3);
+  const txt = $('#roundText'); if (!txt) return;
+  const done = talProg >= 3, rn = Math.min(3, Math.floor(talProg) + 1);
+  const t = pageT < p.roundsStart ? 'The talisman is passed' : done ? 'Three rounds heard' : 'Round ' + rn + ' of 3';
+  if (txt.textContent !== t) {
+    txt.textContent = t;
+    const pips = $('#roundBadge .pips').children;
+    for (let k = 0; k < 3; k++) pips[k].classList.toggle('on', done ? true : k < rn - 1 || (k === rn - 1 && pageT >= p.roundsStart));
+  }
+}
+
+/* ---------- loop ---------- */
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const overlay = !$('#sheet').hidden;
+  const frozen = movie && (paused || overlay);
+  T += dt * (RM ? .25 : 1);
+  if (!frozen) {
+    pageT += dt;
+    for (const s of sched) if (!s.done && pageT >= s.at) { s.done = true; s.fn(); }
+  }
+  updateRounds();
+  frame(dt);
+  if (frozen !== musicHeld) { musicHeld = frozen; Amb.hold(frozen); }
+  if (PAGES[idx].breathCue) {
+    const el = $('#breathCue'); if (el) { const t = breathIn() ? 'breathe in' : 'breathe out'; if (el.textContent !== t) el.textContent = t; }
+  }
+  if (movie && !frozen && pageT >= hold) { if (idx < PAGES.length - 1) go(idx + 1); else setMovie(false); }
+  if (movie) updateBars();
+  requestAnimationFrame(loop);
+}
+
+/* ---------- menus ---------- */
+function renderChapters() {
+  $('#chlist').innerHTML = CHAPTERS.map((c, k) => {
+    const a = chapterFirst[k] + 1, b = a + chapterCount[k] - 1;
+    return '<li><button data-ch="' + k + '" class="' + (PAGES[idx].ch === k ? 'cur' : '') + '"><span class="rn">' + c.num + '</span>' + esc(c.title) + '<span class="pg">' + (a === b ? 'p. ' + a : 'pp. ' + a + '–' + b) + '</span></button></li>';
+  }).join('');
+}
+function openSheet() { renderChapters(); $('#sheet').hidden = false; $('#sheetClose').focus(); }
+function closeSheet() { $('#sheet').hidden = true; $('#menuBtn').focus(); }
+
+/* ---------- input ---------- */
+const app = $('#app');
+let down = null, swiped = false;
+app.addEventListener('pointerdown', e => { if (!e.target.closest('#soundBtn')) startMusicOnce(); down = { x: e.clientX, y: e.clientY }; swiped = false; }, { passive: true });
+app.addEventListener('pointerup', e => {
+  if (!down) return;
+  const dx = e.clientX - down.x, dy = e.clientY - down.y;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3 && $('#sheet').hidden) { swiped = true; go(idx + (dx < 0 ? 1 : -1)); }
+  down = null;
+}, { passive: true });
+app.addEventListener('touchend', e => { if (!e.target.closest('#soundBtn')) startMusicOnce(); }, { passive: true });
+app.addEventListener('click', e => {
+  if (!e.target.closest('#soundBtn')) startMusicOnce();
+  if (swiped) { swiped = false; return; }
+  const t = e.target, act = t.closest('[data-act]');
+  if (act) {
+    const a = act.dataset.act;
+    if (a === 'movie' || a === 'again') startMovieFrom(1);
+    else if (a === 'next') go(idx + 1);
+    else if (a === 'start') { setMovie(false); go(0, { jump: true }); }
+    return;
+  }
+  const chb = t.closest('[data-ch]'); if (chb) { closeSheet(); go(chapterFirst[+chb.dataset.ch], { jump: true }); return; }
+  if (t.closest('button, a, .sheet, .top, .transport')) return;
+  if (movie) { togglePause(); return; }
+  go(idx + (e.clientX / window.innerWidth < .3 ? -1 : 1));
+});
+$('#prevBtn').addEventListener('click', () => go(idx - 1));
+$('#nextBtn').addEventListener('click', () => go(idx + 1));
+$('#playBtn').addEventListener('click', () => { if (!movie) { setMovie(true); syncMusic(true); } else togglePause(); });
+$('#menuBtn').addEventListener('click', openSheet);
+$('#sheetClose').addEventListener('click', closeSheet);
+$('#sheet').addEventListener('click', e => { if (e.target.id === 'sheet') closeSheet(); });
+$('#soundBtn').addEventListener('click', () => setSound(!soundOn));
+document.addEventListener('keydown', e => {
+  startMusicOnce();
+  if (e.key === 'Escape') { if (!$('#sheet').hidden) closeSheet(); return; }
+  if (!$('#sheet').hidden) return;
+  if (e.target.closest && e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.key === 'ArrowRight') { go(idx + 1); e.preventDefault(); }
+  else if (e.key === 'ArrowLeft') { go(idx - 1); e.preventDefault(); }
+  else if (e.key === ' ') { if (movie) togglePause(); else { setMovie(true); syncMusic(true); } e.preventDefault(); }
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { if (movie && !paused) togglePause(); Amb.suspend(); }
+  else Amb.resume();
+});
+
+/* ---------- boot ---------- */
+$('#bars').innerHTML = CHAPTERS.map(() => '<div class="bar"><i></i></div>').join('');
+window.addEventListener('resize', resize);
+resize();
+const m = /^#p(\d+)$/.exec(location.hash || '');
+idx = m ? clamp(+m[1] - 1, 0, PAGES.length - 1) : 0;
+go(idx, { instant: true });
+requestAnimationFrame(t => { last = t; requestAnimationFrame(loop); });
+
+// test hooks
+window.__scene = { cur, tgt }; window.__amb = Amb; window.__movieAt = movieAt;
+window.__story = { PAGES, go, state: () => ({ idx, movie, paused, hold, pageT, amb: Amb.on, music: +Amb.time().toFixed(2), musicPaused: Amb.el ? Amb.el.paused : null }), times: () => PAGES.map((p, i) => readTime(p) + (chapterFirst[p.ch] === i && p.ch > 0 ? 1.75 : 0)) };
+}
+</script>
+</body>
+</html>
